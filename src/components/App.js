@@ -2,6 +2,7 @@ import React, { useState,useReducer } from "react";
 import "./../styles/App.css";
 
 
+
 const states = [{
 	name : "Madhya Pradesh",
 	description:"Madhya Pradesh, a large state in central India, retains landmarks from eras throughout Indian history.",
@@ -141,9 +142,45 @@ const states = [{
 function App() 
 {
 	// Do not alter/remove main div
+	const [state,setState] = useState(0);
+	const [city,setCity] = useState(0);
+	const [town,setTown] =useState(0)
 	return (
 	<div id="main">
-		
+		<div>
+			
+			<label for='state'>States:</label>
+			<select name="state" id="state" value={state} onChange={(e)=>{setState(e.target.value);setCity(0);setTown(0)}}>
+			{states.map((e,i)=>(<option value={i}>{e.name}</option>))}
+			 </select>
+			
+			<label for='city'>Cities:</label>
+			<select name="city" id="city" value={city} onChange={(e)=>{setCity(e.target.value);setTown(0)}}>
+             {states[state].city.map((e,i)=>(<option value={i}>{e.name}</option>))}
+			 </select>
+			<label for='landmark'>Towns:</label>
+			<select name="landmark" id="landmark" value={town} onChange={(e)=>setTown(e.target.value)}>
+				{states[state].city[city].landmarks.map((e,i)=>(<option value={i}>{e.name}</option>))}
+			</select>
+		</div>
+		<hr></hr>
+		<div>
+			<div id="state-name">
+				<div id="state-title">{states[state].name}</div>
+				<div id="state-description">{states[state].description} </div>
+			</div>
+			<hr></hr>
+			<div id="city-name">
+			    <div id="city-title">{states[state].city[city].name}</div>
+				<div id="city-description">{states[state].city[city].description}</div>
+			</div>
+			<hr></hr>
+			<div id="landmark-name">
+                <div id="landmark-title">{states[state].city[city].landmarks[town].name}</div>
+				<div id="landmark-description">{states[state].city[city].landmarks[town].description}</div>
+			</div>
+			<hr></hr>
+		</div>
 	</div>
 	);
 }
